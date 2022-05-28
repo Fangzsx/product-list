@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 const products = JSON.parse(
-    fs.readFileSync(`${__dirname}/dev-data/data/product-list.json`)
+    String(fs.readFileSync(`${__dirname}/dev-data/data/product-list.json`))
 );
 
 //show all products
