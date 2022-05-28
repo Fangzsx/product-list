@@ -22,8 +22,15 @@ app.get('/api/v1/products', (req, res) => {
 
 app.get('/api/v1/products/:id', (req, res) => {
     const id = req.params.id * 1;
-
     const product = products.find(product => product.id === id)
+
+    if(!product){
+        return res.status(404).json({
+            status : 'fail',
+            message : 'Invalid id'
+        });
+    }
+
     res.status(200).json({
        status : 'success',
        data : {
@@ -32,6 +39,26 @@ app.get('/api/v1/products/:id', (req, res) => {
     });
 
 });
+
+app.patch('/api/v1/products/:id', (req, res) => {
+    const id = req.params.id * 1
+
+    const product = products.find((product) => product.id === id)
+
+    if(!product){
+        return res.status(404).json({
+            status : 'fail',
+            message : 'Invalid id'
+        });
+    }
+    res.status(200).send({
+        status : 'success',
+        data : {
+            product : '<Updated product here>'
+        }
+    })
+
+})
 
 app.post('/api/v1/products', (req, res) => {
     const id = products[products.length-1].id + 1;
