@@ -20,6 +20,19 @@ app.get('/api/v1/products', (req, res) => {
 
 })
 
+app.get('/api/v1/products/:id', (req, res) => {
+    const id = req.params.id * 1;
+
+    const product = products.find(product => product.id === id)
+    res.status(200).json({
+       status : 'success',
+       data : {
+           product
+       }
+    });
+
+});
+
 app.post('/api/v1/products', (req, res) => {
     const id = products[products.length-1].id + 1;
     const newProduct = Object.assign({id : id}, req.body);
