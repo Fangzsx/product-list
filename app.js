@@ -21,8 +21,18 @@ app.get('/api/v1/products', (req, res) => {
 })
 
 app.post('/api/v1/products', (req, res) => {
-    console.log(req.body)
-    res.send('done');
+    const id = products[products.length-1].id + 1;
+    const newProduct = Object.assign({id : id}, req.body);
+    products.push(newProduct);
+
+    fs.writeFile(`${__dirname}/dev-data/data/product-list.json`, JSON.stringify(products), err => {
+        res.status(201).json({
+            status : 'success',
+            data: {
+                product : newProduct
+            }
+        })
+    })
 })
 
 const port = 3000;
