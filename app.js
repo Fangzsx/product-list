@@ -8,6 +8,11 @@ const products = JSON.parse(
     String(fs.readFileSync(`${__dirname}/dev-data/data/product-list.json`))
 );
 
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+})
+
 const updateProduct = (req, res) => {
     const id = req.params.id * 1
 
@@ -30,6 +35,7 @@ const updateProduct = (req, res) => {
 const getAllProducts = (req, res) => {
     res.status(200).json({
         status : 'success',
+        requestedAt : req.requestTime,
         results : products.length,
         data : {
             products : products
