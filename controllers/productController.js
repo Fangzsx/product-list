@@ -2,9 +2,11 @@ const fs = require("fs");
 const products = JSON.parse(
     String(fs.readFileSync(`${__dirname}/../dev-data/data/product-list.json`))
 );
-exports.updateProduct = (req, res) => {
-    const id = req.params.id * 1
 
+
+exports.checkID = (req, res, next, val) => {
+    console.log(val);
+    const id = req.params.id * 1
     const product = products.find((product) => product.id === id)
 
     if(!product){
@@ -13,6 +15,11 @@ exports.updateProduct = (req, res) => {
             message : 'Invalid id'
         });
     }
+    next();
+
+}
+
+exports.updateProduct = (req, res) => {
     res.status(200).send({
         status : 'success',
         data : {
@@ -35,13 +42,6 @@ exports.getProduct = (req, res) => {
     const id = req.params.id * 1;
     const product = products.find(product => product.id === id)
 
-    if(!product){
-        return res.status(404).json({
-            status : 'fail',
-            message : 'Invalid id'
-        });
-    }
-
     res.status(200).json({
         status : 'success',
         data : {
@@ -50,15 +50,6 @@ exports.getProduct = (req, res) => {
     });
 };
 exports.deleteProduct = (req, res) => {
-    const id = req.params.id * 1;
-    const product = products.find((product) => product.id === id)
-    if(!product){
-        res.status(404).json({
-            status : 'fail',
-            message : 'Invalid id'
-        });
-    }
-
     res.status(204).json({
         status : 'success',
         data : null
