@@ -13,6 +13,8 @@ app.use((req, res, next) => {
     next();
 })
 
+//route handlers
+//1. Products
 const updateProduct = (req, res) => {
     const id = req.params.id * 1
 
@@ -90,23 +92,60 @@ const createProduct = (req, res) => {
     });
 };
 
-app.route('/api/v1/products')
+//2. Users
+const createUser = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : 'Users not yet defined.'
+    })
+};
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : 'Users not yet defined.'
+    })
+};
+const getUser = (req, res) => {
+    res.status(500).json({
+        status : 'error',
+        message : 'User not yet defined.'
+    });
+};
+const updateUser = (req, res) => {
+  res.status(500).json({
+      status : 'error',
+      message : 'Users not yet defined'
+  })
+};
+const deleteUser = (req, res) => {
+  res.status(500).json({
+      status : 'error',
+      message : 'Users not yet defined.'
+  })
+};
+
+//routers
+const productRouter = express.Router();
+app.use('/api/v1/products', productRouter)
+
+productRouter.route('/')
     .get(getAllProducts)
     .post(createProduct);
 
-app.route('/api/v1/products/:id')
+productRouter.route('/:id')
     .patch(updateProduct)
     .delete(deleteProduct)
     .get(getProduct)
 
-//show all products
-/*
-app.get('/api/v1/products', getAllProducts);
-app.get('/api/v1/products/:id', getProduct);
-app.patch('/api/v1/products/:id', updateProduct);
-app.delete('/api/v1/products/:id', deleteProduct);
-app.post('/api/v1/products', createProduct);
-*/
+app.route('/api/v1/users')
+    .get(getAllUsers)
+    .post(createUser)
+
+app.route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser)
+
 
 const port = 3000;
 app.listen(3000, () => {
